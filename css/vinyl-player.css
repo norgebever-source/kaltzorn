@@ -15,10 +15,8 @@ body{background-color:#1a1410;background-image:
 .preview-bar a{color:#e6b35a;text-decoration:none}
 .preview-bar a:hover{text-decoration:underline}
 .sw-on{color:#f3e6c8;font-weight:700}
-.top{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.9rem 1.1rem;position:sticky;top:0;z-index:4;
+.top{display:flex;justify-content:flex-end;align-items:center;gap:1rem;padding:.9rem 1.1rem;position:sticky;top:0;z-index:4;
   background:#1a1410;border-bottom:1px solid rgba(230,179,90,.25)}
-.logo{display:block;text-decoration:none;line-height:0}
-.logo img{width:auto;height:34px}
 nav{display:flex;flex-wrap:wrap;gap:.55rem .9rem;font-family:system-ui,-apple-system,sans-serif;font-size:.8rem;text-transform:uppercase;letter-spacing:.12em}
 nav a{color:#e6b35a;text-decoration:none}
 nav a:hover{color:#fff}
@@ -94,8 +92,8 @@ footer a{color:#e6b35a;text-decoration:none}
   .reveal{opacity:1;transform:none;transition:none}
 }
 
-.wordmark{margin:.35rem auto 0;line-height:0;max-width:min(640px,92vw)}
-.wordmark img{width:100%;height:auto;filter:drop-shadow(0 6px 18px rgba(0,0,0,.45))}
+.wordmark{margin:.6rem auto 0;line-height:0;width:min(600px,90vw)}
+.wordmark img{width:100%;height:auto;filter:drop-shadow(0 0 24px rgba(230,179,90,.16)) drop-shadow(0 8px 14px rgba(0,0,0,.55))}
 .ctrl .play{min-width:56px;min-height:56px;background:#e6b35a;color:#1a1410;font-size:1.3rem;border-color:#e6b35a}
 .ctrl .play:hover{background:#f3d27a}
 .nowbar .playbtn{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid #e6b35a;color:#e6b35a;font-size:1rem}
