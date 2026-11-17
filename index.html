@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kaltzorn</title>
-  <meta name="description" content="Kaltzorn – kalter Sound, reiner Druck. Produziert mit Suno und Cubase.">
+  <meta name="description" content="Kaltzorn – kalter Sound, reiner Druck. Produziert mit Suno, Cubase und teilweise meiner lieblichen Stimme.">
   <meta name="theme-color" content="#1a1410">
   <link rel="canonical" href="https://kaltzorn.de/">
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
@@ -14,21 +14,22 @@
 </head>
 <body>
   <header class="top">
-    <a class="logo" href="#top">KALTZORN</a>
+    <a class="logo" href="#top" aria-label="Kaltzorn – nach oben"><img src="img/logo/kaltzorn-logo-400.webp" alt="Kaltzorn" width="400" height="118"></a>
     <nav aria-label="Seitennavigation">
       <a href="#songs">Songs</a>
       <a href="#links">Links</a>
-      <a href="impressum.html">Impressum</a>
-      <a href="datenschutz.html">Datenschutz</a>
     </nav>
   </header>
   <main id="top">
     <section class="hero" aria-label="Einführung">
       <img class="avatar" src="img/avatar.jpg" alt="Kaltzorn" width="200" height="200">
       <p class="kicker">Offizielle Seite</p>
-      <h1>Kaltzorn</h1>
+      <h1 class="wordmark"><picture>
+        <source type="image/webp" srcset="img/logo/kaltzorn-logo-400.webp 400w, img/logo/kaltzorn-logo-640.webp 640w, img/logo/kaltzorn-logo-922.webp 922w" sizes="(min-width: 760px) 640px, 92vw">
+        <img src="img/logo/kaltzorn-logo-640.png" srcset="img/logo/kaltzorn-logo-640.png 640w, img/logo/kaltzorn-logo-922.png 922w" sizes="(min-width: 760px) 640px, 92vw" alt="Kaltzorn" width="922" height="273" fetchpriority="high">
+      </picture></h1>
       <p class="tag">Kalter Sound. Reiner Druck.</p>
-      <p class="prod">Produziert mit Suno und Cubase.</p>
+      <p class="prod">Produziert mit Suno, Cubase und teilweise meiner lieblichen Stimme.</p>
     </section>
     <div class="wrap">
       
@@ -37,7 +38,7 @@
         <h2>Tränen im Regen</h2>
         <div class="video-frame">
           <iframe
-            src="https://www.youtube-nocookie.com/embed/zXtcXsnqA2U"
+            src="https://www.youtube-nocookie.com/embed/VbaCnTIzwRw"
             title="Tränen im Regen"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -59,6 +60,7 @@
           <div class="ctrl">
             <button type="button" id="prev" aria-label="Vorheriger Song">‹</button>
             <div class="now-title" id="now-title"># NO CAP</div>
+            <button type="button" id="play" class="play" aria-label="Abspielen" aria-pressed="false">▶</button>
             <button type="button" id="next" aria-label="Nächster Song">›</button>
           </div>
         </div>
@@ -227,7 +229,9 @@
       <div class="lbl">Aktueller Song</div>
       <div class="ttl" id="bar-title"># NO CAP</div>
     </div>
+    <button type="button" class="playbtn" id="bar-play" aria-label="Abspielen">▶</button>
     <a class="go" id="bar-link" href="https://open.spotify.com/intl-de/track/1l3InAwpldfjPaPn2o1LYZ" rel="noopener noreferrer" target="_blank">Auf Spotify anhören</a>
+    <div class="sp-embed" id="sp-embed" hidden><div id="sp-frame"></div></div>
   </aside>
   <footer>
     <p>© 2026 Kaltzorn · Martin Geffe</p>

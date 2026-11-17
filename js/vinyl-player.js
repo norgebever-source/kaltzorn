@@ -10,6 +10,52 @@
   var barTitle = document.getElementById("bar-title");
   var barLink = document.getElementById("bar-link");
   var buttons = document.querySelectorAll(".vinyl");
+  var playBtn = document.getElementById("play");
+  var barPlay = document.getElementById("bar-play");
+  var embedBox = document.getElementById("sp-embed");
+  var controller = null, apiLoading = false, wantPlay = false, playing = false;
+
+  function trackUri(s){
+    var m = /track\/([A-Za-z0-9]+)/.exec(s.spotify);
+    return m ? "spotify:track:" + m[1] : null;
+  }
+  function setPlaying(on){
+    playing = on;
+    if (!reduce) stageDisc.classList.toggle("on", on);
+    var lbl = on ? "Pause" : "Abspielen", sym = on ? "❚❚" : "▶";
+    playBtn.textContent = sym; playBtn.setAttribute("aria-label", lbl); playBtn.setAttribute("aria-pressed", on ? "true" : "false");
+    barPlay.textContent = sym; barPlay.setAttribute("aria-label", lbl);
+  }
+  function loadPlayer(){
+    if (controller || apiLoading) return;
+    apiLoading = true;
+    embedBox.hidden = false;
+    document.body.classList.add("sp-open");
+    window.onSpotifyIframeApiReady = function(IFrameAPI){
+      IFrameAPI.createController(document.getElementById("sp-frame"),
+        {uri: trackUri(songs[index]), width: "100%", height: 80},
+        function(c){
+          controller = c;
+          c.addListener("ready", function(){ if (wantPlay) c.play(); });
+          c.addListener("playback_update", function(e){
+            if (e && e.data) setPlaying(!e.data.isPaused);
+          });
+        });
+    };
+    var sc = document.createElement("script");
+    sc.src = "https://open.spotify.com/embed/iframe-api/v1";
+    sc.async = true;
+    document.body.appendChild(sc);
+  }
+  function playCurrent(){
+    wantPlay = true;
+    if (!controller) { loadPlayer(); return; }
+    controller.loadUri(trackUri(songs[index]));
+  }
+  function togglePlay(){
+    if (!controller) { playCurrent(); return; }
+    if (playing) controller.pause(); else controller.resume();
+  }
 
   function setSong(i, scrollShelf){
     if (i < 0) i = songs.length - 1;
@@ -23,7 +69,6 @@
     barImg.alt = "Cover: " + s.title;
     barTitle.textContent = s.title;
     barLink.href = s.spotify;
-    if (!reduce) stageDisc.classList.add("on");
     for (var b = 0; b < buttons.length; b++) {
       var on = Number(buttons[b].getAttribute("data-index")) === i;
       buttons[b].classList.toggle("on", on);
@@ -37,11 +82,14 @@
     }
   }
 
-  document.getElementById("prev").addEventListener("click", function(){ setSong(index - 1, true); });
-  document.getElementById("next").addEventListener("click", function(){ setSong(index + 1, true); });
+  document.getElementById("prev").addEventListener("click", function(){ setSong(index - 1, true); playCurrent(); });
+  document.getElementById("next").addEventListener("click", function(){ setSong(index + 1, true); playCurrent(); });
+  playBtn.addEventListener("click", togglePlay);
+  barPlay.addEventListener("click", togglePlay);
   for (var b = 0; b < buttons.length; b++) {
     buttons[b].addEventListener("click", function(){
       setSong(Number(this.getAttribute("data-index")), true);
+      playCurrent();
     });
   }
   setSong(0, false);
