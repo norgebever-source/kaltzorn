@@ -38,9 +38,11 @@ nav a:hover{color:#22f0ff}
 .avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;margin:0 auto 1rem;border:3px solid #ff2ec4;
   box-shadow:0 0 0 4px #070010,0 0 28px #ff2ec4,0 0 60px rgba(34,240,255,.4)}
 .kicker{margin:0;font-size:.75rem;letter-spacing:.34em;text-transform:uppercase;color:#22f0ff;font-weight:800}
-h1{margin:.4rem 0 0;font-size:clamp(3.2rem,16vw,8.5rem);line-height:.85;letter-spacing:.04em;text-transform:uppercase;font-weight:800;
+h1{margin:.4rem 0 0;font-size:clamp(2.3rem,12vw,8.5rem);line-height:.9;letter-spacing:.03em;text-transform:uppercase;font-weight:800;
+  max-width:100%;
   background:linear-gradient(120deg,#fff 10%,#22f0ff 40%,#ff2ec4 70%,#ffd24a);
   -webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 16px rgba(255,46,196,.45))}
+@media(max-width:720px){h1{font-size:clamp(2.2rem,11.2vw,3.4rem);letter-spacing:.02em}}
 .tag{margin:1rem 0 0;font-size:clamp(1.05rem,3vw,1.5rem);color:#fff;text-transform:uppercase;letter-spacing:.12em;font-weight:800}
 .prod{margin:.4rem 0 0;color:#f6c;font-weight:700}
 .wrap{width:min(1120px,calc(100% - 2rem));margin:0 auto}

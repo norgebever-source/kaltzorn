@@ -11,7 +11,7 @@
   var barLink = document.getElementById("bar-link");
   var buttons = document.querySelectorAll(".vinyl");
 
-  function setSong(i){
+  function setSong(i, scrollShelf){
     if (i < 0) i = songs.length - 1;
     if (i >= songs.length) i = 0;
     index = i;
@@ -29,20 +29,22 @@
       buttons[b].classList.toggle("on", on);
       buttons[b].setAttribute("aria-pressed", on ? "true" : "false");
     }
-    var active = document.querySelector('.vinyl[data-index="' + i + '"]');
-    if (active && active.scrollIntoView) {
-      active.scrollIntoView({behavior: reduce ? "auto" : "smooth", inline: "center", block: "nearest"});
+    if (scrollShelf) {
+      var active = document.querySelector('.vinyl[data-index="' + i + '"]');
+      if (active && active.scrollIntoView) {
+        active.scrollIntoView({behavior: reduce ? "auto" : "smooth", inline: "center", block: "nearest"});
+      }
     }
   }
 
-  document.getElementById("prev").addEventListener("click", function(){ setSong(index - 1); });
-  document.getElementById("next").addEventListener("click", function(){ setSong(index + 1); });
+  document.getElementById("prev").addEventListener("click", function(){ setSong(index - 1, true); });
+  document.getElementById("next").addEventListener("click", function(){ setSong(index + 1, true); });
   for (var b = 0; b < buttons.length; b++) {
     buttons[b].addEventListener("click", function(){
-      setSong(Number(this.getAttribute("data-index")));
+      setSong(Number(this.getAttribute("data-index")), true);
     });
   }
-  setSong(0);
+  setSong(0, false);
 
   if (!reduce) {
     var io = new IntersectionObserver(function(entries){

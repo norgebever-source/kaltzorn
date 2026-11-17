@@ -30,12 +30,13 @@ nav a:hover{opacity:1;color:#fff}
 @media(min-width:720px){.avatar{width:148px;height:148px}}
 .kicker{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:#8f1e2a;font-weight:700}
 h1{margin:.35rem 0 0;font-family:Impact,Haettenschweiler,"Arial Black",system-ui,sans-serif;font-weight:400;
-  font-size:clamp(3.4rem,20vw,10rem);line-height:.82;letter-spacing:.08em;text-transform:uppercase;color:#eef8ff;
-  position:relative;text-shadow:0 0 30px rgba(140,200,230,.25)}
+  font-size:clamp(2.2rem,11.2vw,9rem);line-height:.9;letter-spacing:.03em;text-transform:uppercase;color:#eef8ff;
+  position:relative;max-width:100%;text-shadow:0 0 30px rgba(140,200,230,.25)}
+@media(max-width:720px){h1{font-size:clamp(2.15rem,10.6vw,3.2rem);letter-spacing:.02em}}
 h1.glitch::before,h1.glitch::after{content:attr(data-text);position:absolute;left:0;top:0;width:100%;overflow:hidden}
-h1.glitch::before{color:#7ad7ff;clip-path:inset(0 0 55% 0);animation:glitchA 3.2s infinite linear;transform:translate(-2px,0)}
-h1.glitch::after{color:#ff5a6a;clip-path:inset(60% 0 0 0);animation:glitchB 2.6s infinite linear;transform:translate(2px,0)}
-@keyframes glitchA{0%,90%,100%{clip-path:inset(0 0 55% 0);transform:translate(-2px,0)}92%{clip-path:inset(10% 0 40% 0);transform:translate(3px,-1px)}96%{transform:translate(-4px,1px)}}
+h1.glitch::before{color:#7ad7ff;clip-path:inset(0 0 55% 0);animation:glitchA 3.2s infinite linear;transform:translate(-1px,0)}
+h1.glitch::after{color:#ff5a6a;clip-path:inset(60% 0 0 0);animation:glitchB 2.6s infinite linear;transform:translate(1px,0)}
+@keyframes glitchA{0%,90%,100%{clip-path:inset(0 0 55% 0);transform:translate(-1px,0)}92%{clip-path:inset(10% 0 40% 0);transform:translate(3px,-1px)}96%{transform:translate(-4px,1px)}}
 @keyframes glitchB{0%,88%,100%{clip-path:inset(60% 0 0 0);transform:translate(2px,0)}91%{clip-path:inset(40% 0 20% 0);transform:translate(-3px,1px)}95%{transform:translate(5px,0)}}
 .tag{margin:1rem 0 0;font-size:clamp(1.05rem,3vw,1.45rem);color:#9ed7ef;letter-spacing:.06em}
 .prod{margin:.35rem 0 0;color:#b7c4ce;font-style:italic}

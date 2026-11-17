@@ -1,5 +1,5 @@
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:5.5rem}
 html,body{margin:0;background:#1a1410;color:#f3e6c8}
 body{font-family:Georgia,"Times New Roman",serif;line-height:1.5;min-height:100dvh;padding-bottom:5.6rem}
 a{color:#e6b35a}
@@ -16,12 +16,12 @@ body{background-color:#1a1410;background-image:
 .preview-bar a:hover{text-decoration:underline}
 .sw-on{color:#f3e6c8;font-weight:700}
 .top{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.9rem 1.1rem;position:sticky;top:0;z-index:4;
-  background:linear-gradient(180deg,#1a1410 40%,rgba(26,20,16,.7) 80%,transparent)}
+  background:#1a1410;border-bottom:1px solid rgba(230,179,90,.25)}
 .logo{font-family:system-ui,-apple-system,sans-serif;font-weight:800;letter-spacing:.2em;text-decoration:none;color:#f3e6c8;text-transform:uppercase;font-size:.95rem}
 nav{display:flex;flex-wrap:wrap;gap:.55rem .9rem;font-family:system-ui,-apple-system,sans-serif;font-size:.8rem;text-transform:uppercase;letter-spacing:.12em}
 nav a{color:#e6b35a;text-decoration:none}
 nav a:hover{color:#fff}
-.hero{padding:2rem 1.1rem 1.4rem;text-align:center}
+.hero{padding:1.4rem 1.1rem 1.6rem;text-align:center}
 .avatar{width:112px;height:112px;border-radius:50%;object-fit:cover;margin:0 auto 1rem;border:3px solid #e6b35a;box-shadow:0 12px 30px rgba(0,0,0,.45)}
 .kicker{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:#9a2a2a;font-weight:700}
 h1{margin:.35rem 0 0;font-size:clamp(3rem,14vw,6.5rem);line-height:.9;letter-spacing:.06em;font-weight:400;color:#f8edd4}
