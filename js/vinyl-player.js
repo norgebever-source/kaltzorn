@@ -13,11 +13,14 @@
   var playBtn = document.getElementById("play");
   var barPlay = document.getElementById("bar-play");
   var embedBox = document.getElementById("sp-embed");
-  var controller = null, apiLoading = false, wantPlay = false, playing = false;
+  var barLbl = document.querySelector(".nowbar .lbl");
+  var audio = new Audio();
+  audio.preload = "none";
+  var playing = false;
 
-  function trackUri(s){
+  function trackId(s){
     var m = /track\/([A-Za-z0-9]+)/.exec(s.spotify);
-    return m ? "spotify:track:" + m[1] : null;
+    return m ? m[1] : "";
   }
   function setPlaying(on){
     playing = on;
@@ -25,38 +28,40 @@
     var lbl = on ? "Pause" : "Abspielen", sym = on ? "❚❚" : "▶";
     playBtn.textContent = sym; playBtn.setAttribute("aria-label", lbl); playBtn.setAttribute("aria-pressed", on ? "true" : "false");
     barPlay.textContent = sym; barPlay.setAttribute("aria-label", lbl);
+    barLbl.textContent = on ? "Vorschau läuft" : "Aktueller Song";
   }
-  function loadPlayer(){
-    if (controller || apiLoading) return;
-    apiLoading = true;
+  audio.addEventListener("playing", function(){ setPlaying(true); });
+  audio.addEventListener("pause", function(){ setPlaying(false); });
+  audio.addEventListener("ended", function(){ setPlaying(false); });
+  audio.addEventListener("error", function(){ if (audio.getAttribute("src")) showEmbed(); });
+
+  // Fallback: offizieller Spotify-Player zum Antippen
+  function showEmbed(){
+    setPlaying(false);
+    var id = trackId(songs[index]);
+    if (!id) return;
+    embedBox.innerHTML = '<iframe title="Spotify-Player" src="https://open.spotify.com/embed/track/' + id +
+      '?utm_source=generator&theme=0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>';
     embedBox.hidden = false;
     document.body.classList.add("sp-open");
-    window.onSpotifyIframeApiReady = function(IFrameAPI){
-      IFrameAPI.createController(document.getElementById("sp-frame"),
-        {uri: trackUri(songs[index]), width: "100%", height: 80},
-        function(c){
-          controller = c;
-          c.addListener("ready", function(){ if (wantPlay) c.play(); });
-          c.addListener("playback_update", function(e){
-            if (e && e.data) setPlaying(!e.data.isPaused);
-          });
-        });
-    };
-    var sc = document.createElement("script");
-    sc.src = "https://open.spotify.com/embed/iframe-api/v1";
-    sc.async = true;
-    document.body.appendChild(sc);
+  }
+  function hideEmbed(){
+    if (embedBox.hidden) return;
+    embedBox.hidden = true; embedBox.innerHTML = "";
+    document.body.classList.remove("sp-open");
   }
   function playCurrent(){
-    wantPlay = true;
-    if (!controller) { loadPlayer(); return; }
-    controller.loadUri(trackUri(songs[index]));
+    var s = songs[index];
+    if (!s.preview) { showEmbed(); return; }
+    hideEmbed();
+    if (audio.getAttribute("src") !== s.preview) audio.src = s.preview;
+    var pr = audio.play();
+    if (pr && pr.catch) pr.catch(function(e){ if (!e || e.name !== "AbortError") showEmbed(); });
   }
   function togglePlay(){
-    if (!controller) { playCurrent(); return; }
-    if (playing) controller.pause(); else controller.resume();
+    if (!audio.paused) { audio.pause(); return; }
+    playCurrent();
   }
-
   function setSong(i, scrollShelf){
     if (i < 0) i = songs.length - 1;
     if (i >= songs.length) i = 0;
