@@ -27,6 +27,7 @@
     if (base === canvasCur) return;
     canvasCur = base;
     canvasBox.classList.remove("show");
+    stageDisc.parentNode.classList.toggle("has-canvas", !!base);
     if (!base) { canvasVideo.pause(); canvasVideo.removeAttribute("src"); canvasVideo.innerHTML = ""; canvasBox.hidden = true; return; }
     canvasVideo.poster = base + ".jpg";
     canvasVideo.innerHTML = '<source src="' + base + '.webm" type="video/webm"><source src="' + base + '.mp4" type="video/mp4">';
