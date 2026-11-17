@@ -92,7 +92,8 @@ footer a{color:#e6b35a;text-decoration:none}
   .reveal{opacity:1;transform:none;transition:none}
 }
 
-.wordmark{margin:.6rem auto 0;line-height:0;width:min(600px,90vw)}
+.wordmark{line-height:0;width:96vw;max-width:none;margin:1.1rem calc(50% - 48vw) 1rem}
+@media(min-width:700px){.wordmark{width:min(1000px,80vw);margin:1.4rem auto 1.2rem}}
 .wordmark img{width:100%;height:auto;filter:drop-shadow(0 0 24px rgba(230,179,90,.16)) drop-shadow(0 8px 14px rgba(0,0,0,.55))}
 .ctrl .play{min-width:56px;min-height:56px;background:#e6b35a;color:#1a1410;font-size:1.3rem;border-color:#e6b35a}
 .ctrl .play:hover{background:#f3d27a}
