@@ -17,6 +17,27 @@
   var audio = new Audio();
   audio.preload = "none";
   var playing = false;
+  var canvasBox = document.getElementById("canvas-bg");
+  var canvasVideo = document.getElementById("canvas-video");
+  var canvasCur = "";
+
+  // Spotify-Canvas-ähnliche Loops: songs[i].canvas = "video/canvas/<id>" (.webm/.mp4/.jpg)
+  function setCanvas(s){
+    var base = s.canvas || "";
+    if (base === canvasCur) return;
+    canvasCur = base;
+    canvasBox.classList.remove("show");
+    if (!base) { canvasVideo.pause(); canvasVideo.removeAttribute("src"); canvasVideo.innerHTML = ""; canvasBox.hidden = true; return; }
+    canvasVideo.poster = base + ".jpg";
+    canvasVideo.innerHTML = '<source src="' + base + '.webm" type="video/webm"><source src="' + base + '.mp4" type="video/mp4">';
+    canvasBox.hidden = false;
+    canvasVideo.load();
+    if (!reduce) {
+      var pr = canvasVideo.play();
+      if (pr && pr.catch) pr.catch(function(){});
+    }
+    requestAnimationFrame(function(){ canvasBox.classList.add("show"); });
+  }
 
   function trackId(s){
     var m = /track\/([A-Za-z0-9]+)/.exec(s.spotify);
@@ -74,6 +95,7 @@
     barImg.alt = "Cover: " + s.title;
     barTitle.textContent = s.title;
     barLink.href = s.spotify;
+    setCanvas(s);
     for (var b = 0; b < buttons.length; b++) {
       var on = Number(buttons[b].getAttribute("data-index")) === i;
       buttons[b].classList.toggle("on", on);

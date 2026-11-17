@@ -117,6 +117,14 @@ def main():
                 songs.append(so)
                 print("neu:", so["title"], so.get("date"))
 
+    # Canvas-Videos: video/canvas/<track-id>.mp4 (+ .webm/.jpg) werden automatisch verknüpft
+    for so in songs:
+        base = f"video/canvas/{so['_id']}"
+        if os.path.exists(os.path.join(ROOT, base + ".mp4")):
+            so["canvas"] = base
+        else:
+            so.pop("canvas", None)
+
     songs.sort(key=lambda so: (so.get("date") or "", -so["_order"]), reverse=True)
     clean = [{k: v for k, v in so.items() if not k.startswith("_")} for so in songs]
 
