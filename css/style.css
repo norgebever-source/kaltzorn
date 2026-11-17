@@ -243,8 +243,15 @@ h2 {
   margin-top: 0.25rem;
   font-size: 0.78rem;
   color: var(--muted);
+  text-decoration: none;
 }
 .song:hover .song-go { color: var(--ice); }
+.cover a {
+  display: block;
+  height: 100%;
+  color: inherit;
+}
+a.song-go:hover, a.song-go:focus-visible { color: var(--ice); }
 
 /* Playlists */
 .playlist-grid {
