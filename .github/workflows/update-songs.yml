@@ -13,6 +13,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Abhängigkeiten
+        run: pip install pillow numpy
       - name: Songliste aktualisieren
         env:
           SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
@@ -20,10 +22,10 @@ jobs:
         run: python scripts/update_songs.py
       - name: Änderungen veröffentlichen
         run: |
-          if [ -n "$(git status --porcelain index.html img/spotify)" ]; then
+          if [ -n "$(git status --porcelain index.html img/spotify img/covers-round)" ]; then
             git config user.name "kaltzorn-bot"
             git config user.email "actions@users.noreply.github.com"
-            git add index.html img/spotify
+            git add index.html img/spotify img/covers-round
             git commit -m "Songliste automatisch aktualisiert"
             git push
           else

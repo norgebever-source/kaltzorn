@@ -9,6 +9,8 @@
 - Sortiert nach Datum (neueste zuerst) und schreibt Plattenregal, Startwerte und Anzahl neu.
 """
 import base64, html, json, os, re, sys, urllib.parse, urllib.request
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from make_round_covers import ensure_round
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INDEX = os.path.join(ROOT, "index.html")
@@ -125,6 +127,14 @@ def main():
         else:
             so.pop("canvas", None)
 
+    for so in songs:
+        src = os.path.join(ROOT, so["img"])
+        if os.path.exists(src):
+            dest = ensure_round(src)
+            so["imgRound"] = os.path.relpath(dest, ROOT).replace("\\", "/")
+        else:
+            so["imgRound"] = f"img/covers-round/{so['_id']}.webp"
+
     songs.sort(key=lambda so: (so.get("date") or "", -so["_order"]), reverse=True)
     clean = [{k: v for k, v in so.items() if not k.startswith("_")} for so in songs]
 
@@ -134,9 +144,7 @@ def main():
         shelf.append(f'''        <button class="vinyl" type="button" data-index="{i}" aria-label="{esc(so['title'])} auswählen">
           <span class="disc">
             <span class="grooves" aria-hidden="true"></span>
-            <span class="label" style="--cover:url('{so['img']}')"><span class="label-fill" aria-hidden="true"></span>
-            <img src="{so['img']}" alt="Cover: {esc(so['title'])}" width="300" height="300" loading="{'eager' if i < 6 else 'lazy'}">
-            </span>
+            <img src="{so['imgRound']}" alt="Cover: {esc(so['title'])}" width="300" height="300" loading="{'eager' if i < 6 else 'lazy'}">
           </span>
           <span class="vinyl-title">{esc(so['title'])}</span>
         </button>''')
@@ -144,8 +152,7 @@ def main():
     s = re.sub(r'(<div class="shelf" role="listbox" aria-label="Song-Auswahl">\n).*?(\n        </div>\n      </section>)',
                lambda mm: mm.group(1) + "\n".join(shelf) + mm.group(2), s, count=1, flags=re.S)
     f = clean[0]
-    s = re.sub(r"(<span class=\"label\" style=\"--cover:url\(')[^']*('\)\")", lambda mm: mm.group(1) + f["img"] + mm.group(2), s, count=1)
-    s = re.sub(r'<img id="stage-img" src="[^"]*" alt="[^"]*"', f'<img id="stage-img" src="{f["img"]}" alt="Cover: {esc(f["title"])}"', s)
+    s = re.sub(r'<img id="stage-img" src="[^"]*" alt="[^"]*"', f'<img id="stage-img" src="{f["imgRound"]}" alt="Cover: {esc(f["title"])}"', s)
     s = re.sub(r'<div class="now-title" id="now-title">.*?</div>', f'<div class="now-title" id="now-title">{esc(f["title"])}</div>', s)
     s = re.sub(r'<img id="bar-img" src="[^"]*" alt="[^"]*"', f'<img id="bar-img" src="{f["img"]}" alt="Cover: {esc(f["title"])}"', s)
     s = re.sub(r'<div class="ttl" id="bar-title">.*?</div>', f'<div class="ttl" id="bar-title">{esc(f["title"])}</div>', s)
