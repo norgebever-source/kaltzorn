@@ -58,11 +58,11 @@ h2{font-size:clamp(1.7rem,5vw,2.6rem);margin:.15rem 0 1rem;font-weight:400;color
     repeating-radial-gradient(circle closest-side, rgba(0,0,0,.13) 0 .7px, rgba(255,255,255,.07) .7px 1.3px, rgba(0,0,0,0) 1.3px 2.4px),
     repeating-radial-gradient(circle closest-side, rgba(255,255,255,.035) 0 4px, rgba(0,0,0,0) 4px 13px)}
 .stage-disc::after,.vinyl::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;z-index:4;
-  background:conic-gradient(from 20deg, rgba(255,255,255,0) 0deg, rgba(255,255,255,.2) 28deg, rgba(255,255,255,0) 62deg, rgba(255,255,255,0) 180deg, rgba(255,255,255,.14) 212deg, rgba(255,255,255,0) 246deg);
+  background:conic-gradient(from 20deg, rgba(255,255,255,0) 0deg, rgba(255,255,255,.2) 28deg, rgba(255,255,255,0) 62deg, rgba(255,255,255,0) 180deg, rgba(255,255,255,.2) 208deg, rgba(255,255,255,0) 242deg);
   mix-blend-mode:screen}
 .stage-disc .disc{will-change:transform}
 .disc img{position:absolute;z-index:1;inset:8%;width:84%;height:84%;object-fit:contain;border-radius:50%;
-  box-shadow:0 0 0 1px rgba(255,255,255,.10),0 0 0 3px rgba(0,0,0,.55),0 0 10px 3px rgba(0,0,0,.55)}
+  box-shadow:0 0 0 1.5px rgba(230,179,90,.75),0 0 0 4px rgba(0,0,0,.7),0 0 12px 4px rgba(0,0,0,.5)}
 .stage-disc.on .disc{animation:spin 3.6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .ctrl{display:flex;align-items:center;gap:.7rem;font-family:system-ui,-apple-system,sans-serif}
