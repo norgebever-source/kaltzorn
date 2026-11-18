@@ -91,6 +91,8 @@
     var s = songs[i];
     stage.src = s.img;
     stage.alt = "Cover: " + s.title;
+    var stageLabel = stage.closest(".label");
+    if (stageLabel) stageLabel.style.setProperty("--cover", 'url("' + s.img + '")');
     nowTitle.textContent = s.title;
     barImg.src = s.img;
     barImg.alt = "Cover: " + s.title;

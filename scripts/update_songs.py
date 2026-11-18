@@ -134,7 +134,9 @@ def main():
         shelf.append(f'''        <button class="vinyl" type="button" data-index="{i}" aria-label="{esc(so['title'])} auswählen">
           <span class="disc">
             <span class="grooves" aria-hidden="true"></span>
+            <span class="label" style="--cover:url('{so['img']}')"><span class="label-fill" aria-hidden="true"></span>
             <img src="{so['img']}" alt="Cover: {esc(so['title'])}" width="300" height="300" loading="{'eager' if i < 6 else 'lazy'}">
+            </span>
           </span>
           <span class="vinyl-title">{esc(so['title'])}</span>
         </button>''')
@@ -142,6 +144,7 @@ def main():
     s = re.sub(r'(<div class="shelf" role="listbox" aria-label="Song-Auswahl">\n).*?(\n        </div>\n      </section>)',
                lambda mm: mm.group(1) + "\n".join(shelf) + mm.group(2), s, count=1, flags=re.S)
     f = clean[0]
+    s = re.sub(r"(<span class=\"label\" style=\"--cover:url\(')[^']*('\)\")", lambda mm: mm.group(1) + f["img"] + mm.group(2), s, count=1)
     s = re.sub(r'<img id="stage-img" src="[^"]*" alt="[^"]*"', f'<img id="stage-img" src="{f["img"]}" alt="Cover: {esc(f["title"])}"', s)
     s = re.sub(r'<div class="now-title" id="now-title">.*?</div>', f'<div class="now-title" id="now-title">{esc(f["title"])}</div>', s)
     s = re.sub(r'<img id="bar-img" src="[^"]*" alt="[^"]*"', f'<img id="bar-img" src="{f["img"]}" alt="Cover: {esc(f["title"])}"', s)

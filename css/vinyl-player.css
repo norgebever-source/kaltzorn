@@ -61,8 +61,17 @@ h2{font-size:clamp(1.7rem,5vw,2.6rem);margin:.15rem 0 1rem;font-weight:400;color
   background:conic-gradient(from 20deg, rgba(255,255,255,0) 0deg, rgba(255,255,255,.2) 28deg, rgba(255,255,255,0) 62deg, rgba(255,255,255,0) 180deg, rgba(255,255,255,.14) 212deg, rgba(255,255,255,0) 246deg);
   mix-blend-mode:screen}
 .stage-disc .disc{will-change:transform}
-.disc img{position:absolute;z-index:1;inset:8%;width:84%;height:84%;object-fit:cover;border-radius:50%;
+.disc .label{position:absolute;z-index:1;inset:8%;width:84%;height:84%;border-radius:50%;overflow:hidden;
+  --art:calc(100% / 1.414213562 - 2px);--feather:10%;
   box-shadow:0 0 0 1px rgba(255,255,255,.10),0 0 0 3px rgba(0,0,0,.55),0 0 10px 3px rgba(0,0,0,.55)}
+.disc .label-fill{position:absolute;inset:0;background:center / var(--art) var(--art) no-repeat var(--cover);
+  transform:scale(1.7);filter:blur(18px) saturate(1.12);pointer-events:none}
+.disc .label img{position:absolute;left:50%;top:50%;width:var(--art);height:var(--art);
+  object-fit:contain;border-radius:0;box-shadow:none;transform:translate(-50%,-50%);max-width:none;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 var(--feather),#000 calc(100% - var(--feather)),transparent 100%),linear-gradient(to bottom,transparent 0,#000 var(--feather),#000 calc(100% - var(--feather)),transparent 100%);
+  -webkit-mask-composite:destination-in;
+  mask-image:linear-gradient(to right,transparent 0,#000 var(--feather),#000 calc(100% - var(--feather)),transparent 100%),linear-gradient(to bottom,transparent 0,#000 var(--feather),#000 calc(100% - var(--feather)),transparent 100%);
+  mask-composite:intersect}
 .stage-disc.on .disc{animation:spin 3.6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .ctrl{display:flex;align-items:center;gap:.7rem;font-family:system-ui,-apple-system,sans-serif}
