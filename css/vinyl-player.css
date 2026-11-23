@@ -138,3 +138,19 @@ body.sp-open{padding-bottom:11.5rem}
   -webkit-mask-image:none;mask-image:none;box-shadow:0 18px 50px rgba(0,0,0,.55),0 0 0 1px rgba(230,179,90,.25)}
 .stage.has-canvas>.canvas-bg.show{opacity:1}
 @media(prefers-reduced-motion:reduce){.stage-disc{transition:none}}
+/* Plattenschrank: quadratische, unverzerrte Cover (1:1) in einheitlicher Größe, symmetrisches Raster */
+.disc{border-radius:6px;background:#111;box-shadow:0 10px 28px rgba(0,0,0,.5),0 0 0 1px rgba(230,179,90,.35)}
+.disc .grooves,.disc::before,.disc::after,.stage-disc::after,.vinyl::after{display:none}
+.disc img{inset:0;width:100%;height:100%;object-fit:cover;border-radius:6px;box-shadow:none}
+.stage-disc .disc{will-change:auto}
+.stage-disc.on .disc{animation:cover-glow 2.4s ease-in-out infinite}
+@keyframes cover-glow{0%,100%{box-shadow:0 10px 28px rgba(0,0,0,.5),0 0 0 1px rgba(230,179,90,.45)}50%{box-shadow:0 10px 28px rgba(0,0,0,.5),0 0 0 2px #e6b35a,0 0 32px rgba(230,179,90,.35)}}
+.shelf{flex-wrap:wrap;justify-content:center;align-items:flex-start;overflow:visible;scroll-snap-type:none;gap:1.2rem 1rem;padding:.4rem 0 1.1rem}
+.vinyl{width:132px}
+.vinyl .disc{width:120px}
+@media(max-width:699px){
+  .vinyl{width:calc((100% - 2rem) / 3)}
+  .vinyl .disc{width:100%}
+}
+.nowbar img{border-radius:6px}
+@media(prefers-reduced-motion:reduce){.stage-disc.on .disc{animation:none}}

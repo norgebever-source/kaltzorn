@@ -1,76 +1,31 @@
 #!/usr/bin/env python3
-"""Erzeugt runde Plattenlabel-Cover: volles Quadrat per FG-Squircular-Mapping auf die Scheibe."""
+"""Erzeugt die Cover für den Plattenschrank: quadratisch (1:1), unverzerrt, einheitliche Größe.
+
+Dateinamen/Ordner (img/covers-round) bleiben aus Kompatibilitätsgründen gleich."""
 import os
 import sys
-import numpy as np
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC_DIR = os.path.join(ROOT, "img", "spotify")
 DEST_DIR = os.path.join(ROOT, "img", "covers-round")
-OUT_SIZE = 800
-SUPER = 2  # intern mit 2× rechnen, dann herunterskalieren
-
-
-def _bilinear(arr, src_x, src_y):
-    h, w = arr.shape[:2]
-    x0 = np.floor(src_x).astype(np.int32)
-    y0 = np.floor(src_y).astype(np.int32)
-    x1 = np.clip(x0 + 1, 0, w - 1)
-    y1 = np.clip(y0 + 1, 0, h - 1)
-    x0 = np.clip(x0, 0, w - 1)
-    y0 = np.clip(y0, 0, h - 1)
-    fx = (src_x - x0)[..., None]
-    fy = (src_y - y0)[..., None]
-    a = arr.astype(np.float32)
-    return (
-        a[y0, x0] * (1 - fx) * (1 - fy)
-        + a[y0, x1] * fx * (1 - fy)
-        + a[y1, x0] * (1 - fx) * fy
-        + a[y1, x1] * fx * fy
-    )
-
-
-def square_to_disc(src: Image.Image, size: int) -> Image.Image:
-    """FG-Squircular / elliptical-grid: komplette Quadratfläche füllt die Scheibe."""
-    src = src.convert("RGBA")
-    arr = np.asarray(src)
-    h, w = arr.shape[:2]
-    ys, xs = np.mgrid[0:size, 0:size]
-    u = (xs + 0.5) / size * 2.0 - 1.0
-    v = (ys + 0.5) / size * 2.0 - 1.0
-    u2, v2 = u * u, v * v
-    D = np.maximum((2 + u2 - v2) ** 2 - 8 * u2, 0)
-    X = np.clip((2 + u2 - v2 - np.sqrt(D)) / 2, 0, 1)
-    Dy = np.maximum((2 + v2 - u2) ** 2 - 8 * v2, 0)
-    Y = np.clip((2 + v2 - u2 - np.sqrt(Dy)) / 2, 0, 1)
-    x = np.sign(u) * np.sqrt(X)
-    y = np.sign(v) * np.sqrt(Y)
-    src_x = (x + 1) / 2 * (w - 1)
-    src_y = (y + 1) / 2 * (h - 1)
-    out = _bilinear(arr, src_x, src_y)
-    r = np.sqrt(u2 + v2)
-    # weiche Kante (~1.2 px), außerhalb transparent
-    aa = np.clip((1.0 - r) * size / 1.2, 0, 1)
-    out[..., 3] *= aa
-    out[r > 1.0] = 0
-    return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), "RGBA")
+OUT_SIZE = 640
 
 
 def render_round(src_path: str, dest_path: str, size: int = OUT_SIZE) -> None:
-    im = Image.open(src_path)
-    work = size * SUPER
-    # Quelle hochskalieren, damit das Mapping nicht weich zeichnet
-    im = im.convert("RGBA").resize((work, work), Image.Resampling.LANCZOS)
-    disc = square_to_disc(im, work)
-    if SUPER > 1:
-        disc = disc.resize((size, size), Image.Resampling.LANCZOS)
+    """Quadratisches Cover ohne Verzerrung: mittig auf 1:1 zuschneiden, auf einheitliche Größe skalieren."""
+    im = Image.open(src_path).convert("RGB")
+    w, h = im.size
+    side = min(w, h)
+    left, top = (w - side) // 2, (h - side) // 2
+    im = im.crop((left, top, left + side, top + side))
+    im = im.resize((size, size), Image.Resampling.LANCZOS)
     os.makedirs(os.path.dirname(dest_path) or ".", exist_ok=True)
     ext = os.path.splitext(dest_path)[1].lower()
     if ext == ".webp":
-        disc.save(dest_path, "WEBP", quality=92, method=6)
+        im.save(dest_path, "WEBP", quality=92, method=6)
     else:
-        disc.save(dest_path, "PNG", optimize=True)
+        im.save(dest_path, "PNG", optimize=True)
 
 
 def dest_for(track_id: str) -> str:

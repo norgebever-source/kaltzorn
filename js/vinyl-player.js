@@ -104,7 +104,7 @@
     }
     if (scrollShelf) {
       var active = document.querySelector('.vinyl[data-index="' + i + '"]');
-      if (active && active.scrollIntoView) {
+      if (active && active.scrollIntoView && active.parentNode.scrollWidth > active.parentNode.clientWidth + 1) {
         active.scrollIntoView({behavior: reduce ? "auto" : "smooth", inline: "center", block: "nearest"});
       }
     }
