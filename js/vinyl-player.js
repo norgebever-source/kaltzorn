@@ -20,6 +20,8 @@
   var canvasBox = document.getElementById("canvas-bg");
   var canvasVideo = document.getElementById("canvas-video");
   var canvasCur = "";
+  var codeEl = document.getElementById("jb-code");
+  function codeFor(i){ return String.fromCharCode(65 + Math.floor(i / 8)) + (i % 8 + 1); }
 
   // Spotify-Canvas-ähnliche Loops: songs[i].canvas = "video/canvas/<id>" (.webm/.mp4/.jpg)
   function setCanvas(s){
@@ -92,6 +94,7 @@
     stage.src = s.imgRound || s.img;
     stage.alt = "Cover: " + s.title;
     nowTitle.textContent = s.title;
+    if (codeEl) codeEl.textContent = codeFor(i);
     barImg.src = s.img;
     barImg.alt = "Cover: " + s.title;
     barTitle.textContent = s.title;
